@@ -7,7 +7,7 @@ gem 'sqlite3'
 gem 'rake'
 gem 'slim'
 gem 'sinatra-bootstrap', :require => 'sinatra/bootstrap'
-
+gem 'puma'
 
 group :development do
   gem 'shotgun'

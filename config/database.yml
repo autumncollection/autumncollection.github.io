@@ -5,3 +5,10 @@ development:
   user:
   password:
   log: true
+
+production:
+  database: headwords
+  host: localhost
+  adapter: sqlite
+  user:
+  password:

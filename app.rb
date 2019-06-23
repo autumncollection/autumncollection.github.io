@@ -20,10 +20,6 @@ module Headwords
       end
     end
 
-    get '/' do
-      "Haha this in your pipe & smoke it! : #{params['what']}"
-    end
-
     get '/all' do
       @data = DB[:headwords].all
       erb :all, :layout => :layout
@@ -49,9 +45,12 @@ module Headwords
       erb :search, :layout => :layout
     end
 
-    get '/search' do
-      @data = []
-      erb :search, :layout => :layout
+    ['/', '/search'].each do |route|
+      get route do
+        request.path_info = '/search'
+        @data = []
+        erb :search, :layout => :layout
+      end
     end
 
     get '/imports' do

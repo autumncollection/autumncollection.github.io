@@ -1,18 +1,21 @@
 <% @data.each do |row| %>
   <h3 class="col-md-12"><%= row[:headword] %></h4>
   <h4 class="col-md-12"><%= row[:definition] %></h4>
-  <h4 class="col-md-12"><%= prepare_example(row[:learner_errors]) %></h4>
-  <div class="col-md-12"><%= row[:noun] %></div>
-  <div class="col-md-12"><%= row[:grammar] %></div>
-  <div class="col-md-12"><%= row[:translation] %></div>
-  <div class="col-md-12"><%= row[:grammar_description] %></div>
-  <div class="col-md-12"><a href="<%= row[:skell] %>">SkeLL</a></div>
-  <div class="col-md-12"><a href="<%= row[:prirucka] %>">Příručka</a></div>
-
-  <h3>Examples</h3>
+  <div class="col-md-12"><%= row[:category] %></div>
+  <h3 class="col-md-12">Examples</h3>
   <% DB[:examples].where(headword_id: row[:id]).each do |example| %>
-    <div class="row top-buffer">
+    <div>
       <div class="col-md-12"><%= prepare_example(example[:example]) %></div></div>
   <% end %>
-  </table>
+  <h3 class="col-md-12 top-buffer">Grammar</h3>
+  <div class="col-md-12"><%= row[:noun] %></div>
+  <div class="col-md-12"><%= row[:grammar] %></div>
+  <div class="col-md-12"><%= row[:grammar_description] %></div>
+  <div class="col-md-12"><%= row[:translation] %></div>
+  <div class="col-md-12"><a href="<%= row[:skell] %>">SkeLL</a></div>
+  <div class="col-md-12"><a href="<%= row[:prirucka] %>">Příručka</a></div>
+  <div class="col-md-12"><%= row[:note] %></div>
+
+  <h3 class="col-md-12 top-buffer">Error</h3>
+  <h4 class="col-md-12"><%= prepare_example(row[:learner_errors]) %></h4>
 <% end %>
