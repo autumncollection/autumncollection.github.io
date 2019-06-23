@@ -1,0 +1,6 @@
+development:
+  database: headwords
+  host: localhost
+  adapter: sqlite
+  user:
+  password:
