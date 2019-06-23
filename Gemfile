@@ -5,6 +5,9 @@ gem 'sinatra'
 gem 'sequel'
 gem 'sqlite3'
 gem 'rake'
+gem 'slim'
+gem 'sinatra-bootstrap', :require => 'sinatra/bootstrap'
+
 
 group :development do
   gem 'shotgun'

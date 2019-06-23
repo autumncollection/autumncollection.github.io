@@ -42,7 +42,16 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.5)
       tilt (~> 2.0)
+    sinatra-bootstrap (0.6.1)
+      sinatra (>= 1.0)
+      sinatra-outputbuffer
+    sinatra-outputbuffer (0.1.0)
+      sinatra (>= 1.0.a)
+    slim (4.0.1)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 2.0.6, < 2.1)
     sqlite3 (1.4.1)
+    temple (0.8.1)
     thread_safe (0.3.6)
     tilt (2.0.9)
     tzinfo (1.2.5)
@@ -59,6 +68,8 @@ DEPENDENCIES
   sequel
   shotgun
   sinatra
+  sinatra-bootstrap
+  slim
   sqlite3
 
 BUNDLED WITH

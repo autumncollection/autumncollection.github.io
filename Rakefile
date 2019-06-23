@@ -27,8 +27,17 @@ namespace :db do
     require "sequel/extensions/migration"
     Sequel::IntegerMigrator.new(DB, File.expand_path(File.join(__dir__, 'config/migrations'), {:target => 0})).run
   end
+end
 
-  task :import => :default do
-    DB[:imports].insert(created_time: Time.now.getutc, name: 'Baf')
+task :bin do
+  $LOAD_PATH << File.expand_path(File.join(__dir__, 'bin'))
+end
+
+namespace :bin do
+  task :import => [:default, :bin] do
+    require 'import'
+
+    DB[:imports].insert(created_time: Time.now.getutc,
+                        name: "Imported #{Import.perform(ENV['file'])}")
   end
 end

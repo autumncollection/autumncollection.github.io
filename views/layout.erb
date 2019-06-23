@@ -1,0 +1,29 @@
+<html>
+  <head>
+  <%= bootstrap_css false, "attribute='foo'"%>
+  <link rel="stylesheet" href="application.css" type="text/css" />
+  <script type='text/javascript'  src='script.js'></script>
+  <%= bootstrap_js_legacy %>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <ul class="nav nav-pills nav-fill">
+          <li class="nav-item <%= active?('/all') %>">
+            <a class="nav-link " href="/all">All words</a>
+          </li>
+          <li class="nav-item <%= active?('/search') %>">
+            <a class="nav-link" href="/search">Search by words</a>
+          </li>
+        </ul>
+
+        <div class="container top-buffer">
+          <% container :div do %>
+            <%= yield %>
+          <% end %>
+        </div>
+        <%= bootstrap_js_default %>
+      </div>
+    </div>
+  </body>
+</html>

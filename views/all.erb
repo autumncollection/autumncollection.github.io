@@ -1,0 +1,15 @@
+<h4>Founded <%= @data.count %></h4>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="inputGroupSelect01">Words</label>
+  </div>
+  <select class="form-control" id="search" onchange="loadData()">
+    <option value="0">---</option>
+  <% @data.each do |row| %>
+    <option value="<%= row[:id] %>"><%= row[:headword] %></option>
+  <% end %>
+  </select>
+</div>
+
+<div id="data"></div>
