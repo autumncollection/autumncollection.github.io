@@ -1,19 +1,26 @@
-<h3 class="col-md-12"><%= row[:headword] %></h4>
-<h4 class="col-md-12"><%= row[:definition] %></h4>
-<div class="col-md-12"><%= row[:category] %></div>
-<h3 class="col-md-12">Examples</h3>
-<% DB[:examples].where(headword_id: row[:id]).each do |example| %>
-  <div>
-    <div class="col-md-12"><%= prepare_example(example[:example]) %></div></div>
-<% end %>
-<h3 class="col-md-12 top-buffer">Grammar</h3>
-<div class="col-md-12"><%= row[:noun] %></div>
-<div class="col-md-12"><%= row[:grammar] %></div>
-<div class="col-md-12"><%= row[:grammar_description] %></div>
-<div class="col-md-12"><%= row[:translation] %></div>
-<div class="col-md-12"><a href="<%= row[:skell] %>">SkeLL</a></div>
-<div class="col-md-12"><a href="<%= row[:prirucka] %>">Příručka</a></div>
-<div class="col-md-12"><%= row[:note] %></div>
+<h3 class=""><%= row[:headword] %></h4>
+<div class="gray-text">
+  <div class="bigger-text "><%= row[:definition] %></div>
+  <div class="bigger-text "><%= row[:category] %></div>
+  <div class=""><%= row[:translation] %></div>
 
-<h3 class="col-md-12 top-buffer">Error</h3>
-<h4 class="col-md-12"><%= prepare_example(row[:learner_errors]) %></h4>
+  <h4 class="top-buffer">Examples</h4>
+  <% DB[:examples].where(headword_id: row[:id]).each do |example| %>
+    <div>
+      <div class=""><%= prepare_example(example[:example]) %></div></div>
+  <% end %>
+  <h4 class="top-buffer">Grammar</h4>
+  <div class=""><%= row[:grammar] %></div>
+  <div class=""><%= row[:grammar_description] %></div>
+
+
+  <h4 class="top-buffer">Reference</h4>
+  <div class=""><a href="<%= row[:skell] %>" target="_blank">SkeLL</a></div>
+  <div class=""><a href="<%= row[:prirucka] %>" target="_blank">Příručka</a></div>
+
+  <h4 class="top-buffer">Error</h4>
+  <div class=""><%= prepare_example(row[:learner_errors]) %></div>
+
+  <h4 class="top-buffer">Comment</h4>
+  <div class=""><%= row[:note] %></div>
+</div>

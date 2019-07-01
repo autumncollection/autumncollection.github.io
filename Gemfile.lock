@@ -57,6 +57,7 @@ GEM
     tilt (2.0.9)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    unicode_utils (1.4.0)
 
 PLATFORMS
   ruby
@@ -73,6 +74,7 @@ DEPENDENCIES
   sinatra-bootstrap
   slim
   sqlite3
+  unicode_utils
 
 BUNDLED WITH
    1.17.2

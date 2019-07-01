@@ -7,3 +7,15 @@
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+
+.gray-text {
+  color: #777;
+}
+
+.gray-text h4 {
+  color: #333;
+}
+
+.bigger-text {
+  font-size: 1.2em;
+}

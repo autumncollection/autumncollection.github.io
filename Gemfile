@@ -8,6 +8,7 @@ gem 'rake'
 gem 'slim'
 gem 'sinatra-bootstrap', :require => 'sinatra/bootstrap'
 gem 'puma'
+gem 'unicode_utils'
 
 group :development do
   gem 'shotgun'

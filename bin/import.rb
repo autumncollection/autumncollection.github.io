@@ -1,5 +1,6 @@
 require 'csv'
 require 'active_support/all'
+require 'unicode_utils/downcase'
 
 require_relative '../config/initializers/ini_database'
 
@@ -14,17 +15,17 @@ class Import
 
     CSV_KEYS = {
       foreign: {
-        grammar_id: 'Grammar',
-        grammar_description_id: 'Grammar description',
-        category_id: 'Category' },
+        grammar_id: 'grammar',
+        grammar_description_id: 'grammar description',
+        category_id: 'category' },
       headword: {
-        headword: 'Headword',
-        definition: 'Definition',
-        translation: 'Translation',
-        learner_errors: 'Learner errors',
-        skell: 'SkeLL',
+        headword: 'headword',
+        definition: 'definition',
+        translation: 'translation',
+        learner_errors: 'errors',
+        skell: 'skell',
         prirucka: 'prirucka',
-        note: 'Note'
+        note: 'note'
       }
     }
 
@@ -90,8 +91,10 @@ class Import
       counter = 'I'
       data    = []
       loop do
-        key = "Example #{counter}"
+        key = "example #{counter}"
         break unless row.include?(key)
+        break if row[key].blank?
+
         data << row[key]
         counter << 'I'
       end
@@ -100,8 +103,13 @@ class Import
 
     def parse_foreign(row)
       CSV_KEYS[:foreign].each_with_object({}) do |(column, csv_column), mem|
+        csv_column = UnicodeUtils.downcase(csv_column)
         mem[column] = row[csv_column]
       end
+    end
+
+    def downcase(text)
+      UnicodeUtils.downcase(text)
     end
 
     def insert_or_update(table, value)

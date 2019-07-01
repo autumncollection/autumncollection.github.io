@@ -29,7 +29,7 @@ module Headwords
       @data = DB["SELECT h.*, g.grammar, gd.grammar_description, c.category" \
       " FROM headwords h LEFT JOIN categories c ON (c.id = h.category_id)" \
       " LEFT JOIN grammars g ON (g.id = h.grammar_id)" \
-      " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_id)" \
+      " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_description_id)" \
       " WHERE h.id = ?", params[:what]]
       erb :find, :layout => false
     end
@@ -39,7 +39,7 @@ module Headwords
         "SELECT h.*, g.grammar, gd.grammar_description, c.category" \
         " FROM headwords h LEFT JOIN categories c ON (c.id = h.category_id)" \
         " LEFT JOIN grammars g ON (g.id = h.grammar_id)" \
-        " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_id)" \
+        " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_description_id)" \
         " WHERE headword = ? OR translation = ?",
           params[:search], params[:search]]
       erb :search, :layout => :layout
