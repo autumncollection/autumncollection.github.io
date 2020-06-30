@@ -2,13 +2,9 @@ development:
   database: headwords
   host: localhost
   adapter: postgresql
-  user:
-  password:
   log: true
 
 production:
   database: headwords
   host: localhost
   adapter: postgresql
-  user:
-  password:
