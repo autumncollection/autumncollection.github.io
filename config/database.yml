@@ -1,7 +1,7 @@
 development:
   database: headwords
   host: localhost
-  adapter: sqlite
+  adapter: postgresql
   user:
   password:
   log: true
@@ -9,6 +9,6 @@ development:
 production:
   database: headwords
   host: localhost
-  adapter: sqlite
+  adapter: postgresql
   user:
   password:
