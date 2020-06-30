@@ -37,6 +37,6 @@ namespace :bin do
     require 'import'
 
     DB[:imports].insert(created_time: Time.now.getutc,
-                        name: "Imported #{Import.perform(ENV['file'] || 'import.csv')}")
+                        name: "Imported #{Import.perform(ENV['file'] || './import.csv')}")
   end
 end
