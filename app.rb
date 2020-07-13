@@ -40,7 +40,7 @@ module Headwords
     end
 
     get '/topic/:what/' do
-      @data = DB["SELECT h.headword FROM headwords h INNER JOIN" \
+      @data = DB["SELECT h.headword, h.id FROM headwords h INNER JOIN" \
         " headwords_categories hc ON hc.headword_id = h.id INNER JOIN" \
         " categories c ON c.id = hc.category_id WHERE c.id = ?", params[:what]]
       @search = DB[:categories].find(id: params[:what]).first[:category]
@@ -48,7 +48,7 @@ module Headwords
     end
 
     get '/label/:what/' do
-      @data = DB["SELECT h.headword FROM headwords h INNER JOIN" \
+      @data = DB["SELECT h.headword, h.id FROM headwords h INNER JOIN" \
         " headwords_labels hl ON hl.headword_id = h.id INNER JOIN" \
         " labels l ON l.id = hl.label_id WHERE l.id = ?", params[:what]]
       @search = DB[:labels].find(id: params[:what]).first[:label]
