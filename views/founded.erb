@@ -13,6 +13,14 @@
   <div class=""><%= row[:grammar] %></div>
   <div class=""><%= row[:grammar_description] %></div>
 
+  <h4 class="top-buffer">CEFR</h4>
+  <div class=""><a href="/cefr/<%= row[:cefr_id] %>/" target="_blank"><%= row[:hovno] %></a></div>
+
+  <h4 class="top-buffer">Labels</h4>
+  <% DB[:headwords_labels].inner_join(:labels, id: :label_id).where(headword_id: row[:id]).each do |label| %>
+    <div>
+      <div class=""><a href="/label/<%= label[:id] %>/" target="_blank"><%= label[:label] %></a></div></div>
+  <% end %>
 
   <h4 class="top-buffer">Reference</h4>
   <div class=""><a href="<%= row[:skell] %>" target="_blank">SkeLL</a></div>
@@ -20,7 +28,4 @@
 
   <h4 class="top-buffer">Error</h4>
   <div class=""><%= prepare_example(row[:learner_errors]) %></div>
-
-  <h4 class="top-buffer">Comment</h4>
-  <div class=""><%= row[:note] %></div>
 </div>

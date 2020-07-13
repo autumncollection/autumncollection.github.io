@@ -6,6 +6,14 @@ development:
   adapter: postgresql
   log: true
 
+test:
+  database: headwords
+  host: localhost
+  adapter: sqlite
+  user:
+  password:
+  log: true
+
 production:
   database: headwords
   host: localhost

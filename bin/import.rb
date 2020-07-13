@@ -9,27 +9,29 @@ class Import
       grammar_id: { :grammars => :grammar },
       grammar_description_id: { :grammar_descriptions => :grammar_description },
       category_id: { :categories => :category },
-      :examples => :example
+      cefr_id: { :cefrs => :cefr },
+      :examples => :example,
+      :labels => { labels: :label }
     }
 
     CSV_KEYS = {
       foreign: {
         grammar_id: :grammar,
         grammar_description_id: :grammar_description,
-        category_id: :category },
+        cefr_id: :cefr },
       headword: {
         headword: :headword,
         definition: :definition,
         translation: :translation,
         learner_errors: :errors,
         skell: :skell,
-        prirucka: :prirucka,
+        prirucka: :online_reference_book,
         note: :note
       }
     }
 
     def perform(file)
-      %i[headwords examples].each { |table| DB[table].truncate }
+      %i[headwords examples headwords_labels].each { |table| DB[table].truncate }
       parse_file(file)
     end
 
@@ -38,10 +40,14 @@ class Import
     def parse_file(file)
       parsed = []
       CSV.parse(File.read(File.join(file)), headers: true, header_converters: :symbol) do |row|
+        next unless row[:hotovo] == 'ano'
+
         ini_data = parse_foreign(row)
         examples = parse_examples(row)
+        labels   = parse_labels(row)
+        categories = parse_categories(row)
         parse_headword!(row, ini_data)
-        parsed << { data: ini_data, examples: examples }
+        parsed << { data: ini_data, examples: examples, labels: labels, categories: categories }
       end
       create_foreigns!(parsed)
       save_rows(parsed)
@@ -50,8 +56,23 @@ class Import
     def save_rows(parsed)
       parsed.each_with_index.map do |row, index|
         id = DB[:headwords].insert(row[:data])
+        # create examples
         row[:examples].each do |example|
           DB[:examples].insert(example: example, headword_id: id)
+        end
+
+        # create labels
+        (row[:labels] || []).each do |label|
+          label_id = insert_or_update(:labels, label)
+
+          DB[:headwords_labels].insert(headword_id: id, label_id: label_id)
+        end
+
+        # create categories
+        (row[:categories] || []).each do |label|
+          label_id = insert_or_update(:labels, label)
+
+          DB[:headwords_labels].insert(headword_id: id, label_id: label_id)
         end
         index
       end.size
@@ -65,6 +86,7 @@ class Import
           foreigns[key] << row[:data][key]
         end
       end
+
       created_foreigns = {}
       foreigns.each do |key, values|
         values.each do |value|
@@ -87,17 +109,29 @@ class Import
     end
 
     def parse_examples(row)
-      counter = 'I'
+      counter = 'i'
       data    = []
       loop do
-        key = "example #{counter}"
+        key = "example_#{counter}".to_sym
         break unless row.include?(key)
         break if row[key].blank?
 
         data << row[key]
-        counter << 'I'
+        counter << 'i'
       end
       data
+    end
+
+    def parse_categories(row)
+      return [] if row[:topicsc].blank?
+
+      row[:topics].split(',').map { |c| c.strip }
+    end
+
+    def parse_labels(row)
+      return [] if row[:labels].blank?
+
+      row[:labels].split(' ')
     end
 
     def parse_foreign(row)

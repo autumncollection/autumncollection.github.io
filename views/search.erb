@@ -9,6 +9,7 @@
 
 <h4>Founded <%= @data.count %></h3>
 
+  <%= @data.count  %>
 <% @data.each do |row| %>
   <%= erb(:founded, layout: false, locals: { row: row }) %>
 <% end %>

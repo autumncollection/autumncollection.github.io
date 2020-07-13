@@ -12,6 +12,7 @@ gem 'unicode_utils'
 
 group :development do
   gem 'shotgun'
+  gem 'sqlite3'
 end
 
 group :test, :development do

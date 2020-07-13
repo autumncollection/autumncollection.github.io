@@ -10,6 +10,13 @@ module Headwords
     register Sinatra::Bootstrap::Assets
 
     helpers do
+      def base_query
+        "SELECT h.*, g.grammar, gd.grammar_description, cefrs.cefr AS hovno" \
+        " FROM headwords h LEFT JOIN cefrs ON (cefrs.id = h.cefr_id)" \
+        " LEFT JOIN grammars g ON (g.id = h.grammar_id)" \
+        " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_description_id)"
+      end
+
       def prepare_example(value)
         return '' if value.blank?
         value.gsub(/\*(.+?)\*/, '<b>\1</b>').gsub(/\#(.+?)\#/, '<span style="color: red">\1</span>')
@@ -25,21 +32,44 @@ module Headwords
       erb :all, :layout => :layout
     end
 
+    get '/cefr/:what/' do
+      @data = DB[base_query +
+      " WHERE h.cefr_id = ?", params[:what]]
+      @search = DB[:cefrs].find(id: params[:what]).first[:cefr]
+      erb :list, :layout => true
+    end
+
+    get '/topic/:what/' do
+      @data = DB["SELECT h.headword FROM headwords h INNER JOIN" \
+        " headwords_categories hc ON hc.headword_id = h.id INNER JOIN" \
+        " categories c ON c.id = hc.category_id WHERE c.id = ?", params[:what]]
+      @search = DB[:categories].find(id: params[:what]).first[:category]
+      erb :list, :layout => true
+    end
+
+    get '/label/:what/' do
+      @data = DB["SELECT h.headword FROM headwords h INNER JOIN" \
+        " headwords_labels hl ON hl.headword_id = h.id INNER JOIN" \
+        " labels l ON l.id = hl.label_id WHERE l.id = ?", params[:what]]
+      @search = DB[:labels].find(id: params[:what]).first[:label]
+      erb :list, :layout => true
+    end
+
+    get '/detail/:what/' do
+      @data = DB[base_query +
+      " WHERE h.id = ?", params[:what]]
+      erb :find, :layout => true
+    end
+
     get '/find' do
-      @data = DB["SELECT h.*, g.grammar, gd.grammar_description, c.category" \
-      " FROM headwords h LEFT JOIN categories c ON (c.id = h.category_id)" \
-      " LEFT JOIN grammars g ON (g.id = h.grammar_id)" \
-      " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_description_id)" \
+      @data = DB[base_query +
       " WHERE h.id = ?", params[:what]]
       erb :find, :layout => false
     end
 
     post '/search' do
       @data = DB[
-        "SELECT h.*, g.grammar, gd.grammar_description, c.category" \
-        " FROM headwords h LEFT JOIN categories c ON (c.id = h.category_id)" \
-        " LEFT JOIN grammars g ON (g.id = h.grammar_id)" \
-        " LEFT JOIN grammar_descriptions gd ON (gd.id = h.grammar_description_id)" \
+        base_query +
         " WHERE headword = ? OR translation = ?",
           params[:search], params[:search]]
       erb :search, :layout => :layout

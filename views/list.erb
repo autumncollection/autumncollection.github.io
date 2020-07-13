@@ -1,0 +1,9 @@
+
+<h3><%= @search %></h3>
+<h4>Founded <%= @data.count %></h3>
+
+<table class="table">
+<% @data.each do |row| %>
+  <tr><td><a href="/detail/<%= row[:id] %>/"><%= row[:headword] %></a></td></tr>
+<% end %>
+</table>
