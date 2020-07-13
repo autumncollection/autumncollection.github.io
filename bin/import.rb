@@ -125,13 +125,13 @@ class Import
     def parse_categories(row)
       return [] if row[:topicsc].blank?
 
-      row[:topics].split(',').map { |c| c.strip }
+      row[:topics].split(';').map { |c| c.strip }
     end
 
     def parse_labels(row)
       return [] if row[:labels].blank?
 
-      row[:labels].split(' ')
+      row[:labels].split(';').map { |c| c.strip }
     end
 
     def parse_foreign(row)
