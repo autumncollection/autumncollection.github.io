@@ -28,7 +28,7 @@ module Headwords
     end
 
     get '/all' do
-      @data = DB[:headwords].all
+      @data = DB[:headwords].order(:headword).all
       erb :all, :layout => :layout
     end
 
