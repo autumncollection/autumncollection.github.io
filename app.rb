@@ -20,6 +20,7 @@ module Headwords
 
       def prepare_example(value)
         return '' if value.blank?
+
         value.gsub(/\*(.+?)\*/, '<b>\1</b>').gsub(/\#(.+?)\#/, '<span style="color: red">\1</span>')
       end
 
