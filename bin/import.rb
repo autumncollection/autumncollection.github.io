@@ -40,7 +40,7 @@ class Import
     def parse_file(file)
       parsed = []
       CSV.parse(File.read(File.join(file)), headers: true, header_converters: :symbol) do |row|
-        next unless row[:hotovo] == 'ano'
+        next unless row[:hotovo] =~ /ano/
 
         ini_data = parse_foreign(row)
         examples = parse_examples(row)
