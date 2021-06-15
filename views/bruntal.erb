@@ -1,0 +1,41 @@
+<% if @heslo.present? %>
+<h1>Tvoje heslo na tábor je: "<%= @heslo %>"
+<% else %>
+
+
+<h2>Kde najít a jak hrát</h2>
+<p>Na 4 místech jsou rozmístěny 4 papíry ve formátu A4 na kterých je vytisknut QR kód/případně odkaz, který vás dovede na hádanku. Řesení jednotlivých hádanek pak vyplníte zde do formuláře a v případě správných odpovědí dostanete na táboře na uvítanou malou odměnu.</p>
+<h3>Kde najít hádanky: <a href="https://mapy.cz/s/gukojuhoca" _blank="true">https://mapy.cz/s/gukojuhoca</a></h3>
+<p>Klubovna na plotě: 49.9927956N, 17.4676208E</p>
+<p>Vchod do lomu: 49.9783400N, 17.4684578E</p>
+<p>Dub pod Uhlířákem: 49.9782828N, 17.4303586E</p>
+<p>Reigrův sad: 49.9802917N, 17.4601344E</p>
+<p>V případě že na místě nenajdete QR kód (může ho někdo ukradnout), vyfoťte se a napiště nám na FB, e-mailu, nebo Instagramu ;)</p>
+
+<div class="mb-3"><h3>Vyplňte bez diakritiky a bez mezer</h3></div>
+<form method="post" action="/">
+<div class="form-group">
+  <div class="mb-3">
+    <label for="jmeno" class="form-label">Vyplň svoje jméno</label>
+    <input id="jmeno" type="text" name="jmeno"  value="<%= @jmeno %>" class="form-control form-control-lg<%= " is-valid" if @jmeno.present? %> <%= " is-invalid" if !@first && @jmeno.blank? %>"/>
+  </div>
+  <div class="mb-3">
+    <label for="1" class="form-label">První slovo</label>
+    <input id="1" type="text" name="1"  value="<%= @slova[0] %>" class="form-control form-control-lg <%= "is-valid" if @slova[0].present? %>  <%= " is-invalid" if !@first && @slova[0].blank? %>"/>
+  </div>
+  <div class="mb-3">
+    <label for="2" class="form-label">Druhé slovo</label>
+    <input id="2" type="text" name="2"  value="<%= @slova[1] %>" class="form-control form-control-lg <%= "is-valid" if @slova[1].present? %>  <%= " is-invalid" if !@first && @slova[1].blank? %>"/>
+  </div>
+  <div class="mb-3">
+    <label for="3" class="form-label">Třetí slovo</label>
+    <input id="3" type="text" name="3"  value="<%= @slova[2] %>" class="form-control form-control-lg <%= "is-valid" if @slova[2].present? %>  <%= " is-invalid" if !@first && @slova[2].blank? %>"/>
+  </div>
+  <div class="mb-3">
+    <label for="4" class="form-label">Čtvrté slovo</label>
+    <input id="4" type="text" name="4"  value="<%= @slova[3] %>" class="form-control form-control-lg <%= "is-valid" if @slova[3].present? %>  <%= " is-invalid" if !@first && @slova[3].blank? %>"/>
+  </div>
+  <input type="submit" value="Vyhodnoť" class="btn btn-primary" />
+</div>
+</form>
+<% end %>

@@ -2,12 +2,14 @@ require 'sinatra'
 require 'sinatra/bootstrap'
 
 require 'initializers/ini_database'
+require "unicode_utils/downcase"
 # require_relative 'lib/git_class'
 
 
 module Headwords
   class Base < Sinatra::Base
     register Sinatra::Bootstrap::Assets
+
 
     helpers do
       def base_query
@@ -26,6 +28,39 @@ module Headwords
 
       def active?(path)
         request.path_info =~ /#{Regexp.escape(path)}/ ? 'active' : ''
+      end
+    end
+
+    get "/ahoj321" do
+      @names = DB[:names].all
+      erb :names, layout: :simple_layout
+    end
+
+    get "/" do
+      @slova = ["", "", "", ""]
+      @jmeno = ""
+      @prvni = true
+      @heslo = params["heslo"]
+      erb :bruntal, layout: :simple_layout
+    end
+
+    post "/" do
+      @prvni = false
+      slova = ["moravice", "soukenna", "mlynukrocilu", "jeseniky"]
+      data = [params["1"] || "", params["2"] || "", params["3"] || "", params["4"] || ""]
+      data.map! do |row|
+        UnicodeUtils.downcase(row).tr("ěščřžýáíéůú", "escrzyaieuu").gsub(" ", "")
+      end
+      @slova = slova.map { |slovo| data.include?(slovo) ? slovo : "" }
+      @jmeno = params["jmeno"]
+
+      if (@slova - slova).empty? && @jmeno.present?
+        letters = %w[a b c d e g h i j k l m n o p q r s t u v w x y z]
+        heslo = 6.times.map { letters.sample }.join("")
+        DB[:names].insert(name: @jmeno, heslo: heslo)
+        redirect to("/?heslo=#{heslo}")
+      else
+        erb :bruntal, layout: :simple_layout
       end
     end
 
