@@ -1,14 +1,13 @@
 <html>
   <head>
-  <%= bootstrap_css false, "attribute='foo'"%>
+  <%= bootstrap_js_legacy %>
   <link rel="stylesheet" href="application.css" type="text/css" />
   <link rel="stylesheet" href="bootstrap.css" type="text/css" />
   <script type='text/javascript'  src='script.js'></script>
-  <%= bootstrap_js_legacy %>
   </head>
   <body>
     <div id="app">
-        <div class="container top-buffer">
+        <div class="container-sm top-buffer">
           <%= yield %>
         </div>
         <%= bootstrap_js_default %>
